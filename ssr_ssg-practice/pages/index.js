@@ -1,13 +1,16 @@
 // fs 모듈같은 nodejs 모듈은 getStaticProps 함수에서만 쓰이고, 클라이언트로 넘어갈때는 삭제된다.
 import path from "path";
 import fs from "fs/promises";
+import Link from "next/link";
 
 function HomePage(props) {
   const { products } = props;
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
