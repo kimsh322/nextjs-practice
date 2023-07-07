@@ -3,6 +3,7 @@ import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import { getFeaturedEvents, getEventById } from "@/helper/api-util";
+import Head from "next/head";
 
 const EventDetailPage = (props) => {
   const event = props.selectedEvent;
@@ -17,6 +18,11 @@ const EventDetailPage = (props) => {
 
   return (
     <Fragment>
+      {/*  Head 태그에 동적인 변수도 할당 가능 */}
+      <Head>
+        <title>{event.title}</title>
+        <meta name="description" content={event.description} />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics date={event.date} image={event.image} address={event.location} imageAlt={event.title} />
       <EventContent>
