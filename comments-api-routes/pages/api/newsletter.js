@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { connectDatabase, insertDocument } from "@/helpers/db-util";
 
 async function helper(req, res) {
   if (req.method === "POST") {
@@ -11,16 +11,23 @@ async function helper(req, res) {
       return;
     }
 
+    let client;
     // MongoDB 사용
-
-    // MongoDB 연결
-    const client = await MongoClient.connect(process.env.NEXT_PUBLIC_MONGODB_URL);
-    // 'newslettet' db에 연결
-    const db = client.db("events");
-    // collection 'emails'에 key, value 입력
-    await db.collection("newsletter").insertOne({ email: userEmail });
-    // 연결 끊기
-    client.close();
+    try {
+      // MongoDB 연결
+      client = await connectDatabase();
+    } catch (error) {
+      res.status(500).json({ message: "Connecting to the database failed!" });
+      return;
+    }
+    try {
+      await insertDocument(client, "newsletter", { email: userEmail });
+      // 연결 끊기
+      client.close();
+    } catch (error) {
+      res.status(500).json({ message: "Inserting data failed!" });
+      return;
+    }
 
     console.log(userEmail);
     res.status(201).json({ message: "Signed up!" });
