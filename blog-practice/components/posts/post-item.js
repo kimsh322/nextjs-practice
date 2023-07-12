@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import classes from "./post-item.module.css";
 
@@ -18,7 +18,7 @@ function PostItem(props) {
     <li className={classes.post}>
       <Link href={linkPath}>
         <div className={classes.image}>
-          {/* layout = responsive를 사용하면 박스크기에 맞게 조정된다. */}
+          {/* layout = responsive를 사용하면 박스크기에 맞게 조정된다. 13버전에서는 없어짐 */}
           <Image src={imagePath} alt={title} width={300} height={200} layout="responsive" />
         </div>
         <div className={classes.content}>
